@@ -13,17 +13,59 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "CFBundleDocumentTypes": [
+          {
+            "LSItemContentTypes": [
+              "net.daringfireball.markdown",
+              "public.markdown",
+              "public.plain-text"
+            ],
+            "CFBundleTypeName": "Markdown Document",
+            "LSHandlerRank": "Owner"
+          }
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "mimeType": "text/markdown"
+            },
+            {
+              "mimeType": "text/plain"
+            },
+            {
+              "scheme": "content",
+              "pathPattern": ".*\\.md"
+            },
+            {
+              "scheme": "file",
+              "pathPattern": ".*\\.md"
+            }
+          ],
+          "category": [
+            "DEFAULT"
+          ]
+        }
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9cf4738b-5186-4afb-8676-581cf28ce362"
+      }
     }
   }
 }
