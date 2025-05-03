@@ -57,7 +57,8 @@
             "DEFAULT"
           ]
         }
-      ]
+      ],
+      "package": "com.tuno.mde"
     },
     "web": {
       "favicon": "./assets/favicon.png"
