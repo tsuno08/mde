@@ -11,6 +11,9 @@ importers:
       expo:
         specifier: ~53.0.6
         version: 53.0.6(@babel/core@7.27.1)(react-native@0.79.2(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
+      expo-intent-launcher:
+        specifier: ^12.1.4
+        version: 12.1.4(expo@53.0.6(@babel/core@7.27.1)(react-native@0.79.2(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))
       expo-status-bar:
         specifier: ~2.2.3
         version: 2.2.3(react-native@0.79.2(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
@@ -1259,6 +1262,11 @@ packages:
     peerDependencies:
       expo: '*'
       react: '*'
+
+  expo-intent-launcher@12.1.4:
+    resolution: {integrity: sha512-WMCZY1qKpVLDefLkLl/5oxBpAVqLNThBXHAkOP3datEspsnMH7JChX2qDwan0xlgzybglqaH0RMjAUGSLqsZ6g==}
+    peerDependencies:
+      expo: '*'
 
   expo-keep-awake@14.1.4:
     resolution: {integrity: sha512-wU9qOnosy4+U4z/o4h8W9PjPvcFMfZXrlUoKTMBW7F4pLqhkkP/5G4EviPZixv4XWFMjn1ExQ5rV6BX8GwJsWA==}
@@ -4107,6 +4115,10 @@ snapshots:
       expo: 53.0.6(@babel/core@7.27.1)(react-native@0.79.2(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
       fontfaceobserver: 2.3.0
       react: 19.0.0
+
+  expo-intent-launcher@12.1.4(expo@53.0.6(@babel/core@7.27.1)(react-native@0.79.2(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)):
+    dependencies:
+      expo: 53.0.6(@babel/core@7.27.1)(react-native@0.79.2(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
 
   expo-keep-awake@14.1.4(expo@53.0.6(@babel/core@7.27.1)(react-native@0.79.2(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react@19.0.0):
     dependencies:
