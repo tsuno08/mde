@@ -1,9 +1,14 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
+import { TextIntentModule } from "./modules/text-intent";
 
 export default function App() {
   const [text, setText] = useState("");
+
+  useEffect(() => {
+    TextIntentModule.hello();
+  }, []);
 
   return (
     <View style={styles.container}>
