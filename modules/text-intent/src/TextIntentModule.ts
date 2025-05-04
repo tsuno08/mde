@@ -1,10 +1,7 @@
 import { NativeModule, requireNativeModule } from 'expo';
 
-import { TextIntentModuleEvents } from './TextIntent.types';
-
-declare class TextIntentModuleClass extends NativeModule<TextIntentModuleEvents> {
+declare class TextIntentModuleClass extends NativeModule {
   hello(): string;
-  setValueAsync(value: string): Promise<void>;
 }
 
 // This call loads the native module object from the JSI.
