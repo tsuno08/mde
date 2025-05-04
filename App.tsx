@@ -7,7 +7,7 @@ export default function App() {
   const [text, setText] = useState("");
 
   useEffect(() => {
-    TextIntentModule.hello();
+    setText(TextIntentModule.hello());
   }, []);
 
   return (
