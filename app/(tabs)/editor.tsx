@@ -94,6 +94,25 @@ export default function EditorTab() {
     }
   };
 
+  const handleInlineCode = () => {
+    const start = selection.start;
+    const end = selection.end;
+    const hasSelection = start !== end;
+
+    if (hasSelection) {
+      const selectedText = displayText.substring(start, end);
+      const newText =
+        displayText.substring(0, start) +
+        "`" +
+        selectedText +
+        "`" +
+        displayText.substring(end);
+      setDisplayText(newText);
+    } else {
+      insertAtCursor("`", "`");
+    }
+  };
+
   const handleLink = () => {
     const start = selection.start;
     const end = selection.end;
@@ -131,6 +150,12 @@ export default function EditorTab() {
         </TouchableOpacity>
         <TouchableOpacity style={styles.toolbarButton} onPress={handleCode}>
           <MaterialIcons name="code" size={24} color="#4c669f" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.toolbarButton}
+          onPress={handleInlineCode}
+        >
+          <MaterialIcons name="data-object" size={24} color="#4c669f" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.toolbarButton} onPress={handleLink}>
           <MaterialIcons name="link" size={24} color="#4c669f" />
