@@ -171,7 +171,7 @@ export default function EditorTab() {
         onChangeText={handleTextChange}
         onSelectionChange={handleSelectionChange}
         value={displayText}
-        placeholder="Markdown を入力してください..."
+        placeholder="Enter Markdown text..."
         textAlignVertical="top"
         placeholderTextColor="#999"
       />

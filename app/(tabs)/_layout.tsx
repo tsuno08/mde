@@ -22,7 +22,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="editor"
         options={{
-          title: "エディタ",
+          title: "Editor",
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="edit" size={24} color={color} />
           ),
@@ -31,7 +31,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="preview"
         options={{
-          title: "プレビュー",
+          title: "Preview",
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="preview" size={24} color={color} />
           ),

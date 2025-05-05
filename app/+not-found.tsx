@@ -7,14 +7,14 @@ export default function NotFoundScreen() {
     <View style={styles.container}>
       <View style={styles.content}>
         <MaterialIcons name="error-outline" size={64} color="#4c669f" />
-        <Text style={styles.title}>ページが見つかりません</Text>
+        <Text style={styles.title}>Page Not Found</Text>
         <Text style={styles.subtitle}>
-          お探しのページは存在しないか、移動した可能性があります。
+          The page you are looking for does not exist or has been moved.
         </Text>
         <Link href="/" asChild>
           <TouchableOpacity style={styles.button}>
             <MaterialIcons name="home" size={24} color="#fff" />
-            <Text style={styles.buttonText}>ホームに戻る</Text>
+            <Text style={styles.buttonText}>Back to Home</Text>
           </TouchableOpacity>
         </Link>
       </View>
