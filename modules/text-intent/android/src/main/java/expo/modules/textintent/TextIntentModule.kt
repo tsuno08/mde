@@ -17,8 +17,8 @@ class TextIntentModule : Module() {
     Name("TextIntent")
 
     // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-    Function("hello") {
-      return@Function "Hello from Kotlin! Text: ${TextIntentSingleton.text}, Intent: ${TextIntentSingleton.intent}"
+    Function("getTextIntent") { // The function name is `getTextIntent`
+      return@Function TextIntentSingleton.text
     }
   }
 }

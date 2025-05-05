@@ -17,7 +17,7 @@ class TextIntentReactActivityLifecycleListener(activityContext: Context) :
                 }
             }
 
-            if (intent.type != null) {
+            if (intent != null) {
                 TextIntentSingleton.intent = intent
             }
         }
