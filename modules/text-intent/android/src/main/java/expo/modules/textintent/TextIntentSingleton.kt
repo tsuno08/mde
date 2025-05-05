@@ -1,6 +1,6 @@
 package expo.modules.textintent
 
-import android.content.Intent
+import android.app.Activity
 import expo.modules.core.interfaces.SingletonModule
 
 object TextIntentSingleton : SingletonModule {
@@ -9,6 +9,6 @@ object TextIntentSingleton : SingletonModule {
         return "TextIntent"
     }
 
-    var intent: Intent? = null
+    var activity: Activity? = null
     var text : String? = null
 }

@@ -1,6 +1,5 @@
 package expo.modules.textintent
 
-import android.content.Context
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 
@@ -19,6 +18,18 @@ class TextIntentModule : Module() {
     // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
     Function("getTextIntent") { // The function name is `getTextIntent`
       return@Function TextIntentSingleton.text
+    }
+
+    Function("setTextIntent") { text: String ->
+      val activity = TextIntentSingleton.activity
+      val intent = activity?.intent
+      val uri = intent?.data
+
+      if (uri != null) {
+        activity?.contentResolver?.openOutputStream(uri)?.use { outputStream ->
+          outputStream.write(text.toByteArray())
+        }
+      }
     }
   }
 }

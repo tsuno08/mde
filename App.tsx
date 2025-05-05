@@ -10,12 +10,17 @@ export default function App() {
     setText(TextIntentModule.getTextIntent());
   }, []);
 
+  const handleTextChange = (newText: string) => {
+    setText(newText);
+    TextIntentModule.setTextIntent(newText);
+  };
+
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.editor}
         multiline
-        onChangeText={setText}
+        onChangeText={handleTextChange}
         value={text}
         placeholder="Markdown を入力してください..."
       />
