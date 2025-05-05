@@ -12,9 +12,10 @@ import { MaterialIcons } from "@expo/vector-icons";
 interface EditorProps {
   text: string;
   setText: (text: string) => void;
+  onSave: () => void;
 }
 
-export default function Editor({ text, setText }: EditorProps) {
+export default function Editor({ text, setText, onSave }: EditorProps) {
   const [selection, setSelection] = useState({ start: 0, end: 0 });
 
   const handleSelectionChange = (
@@ -149,6 +150,10 @@ export default function Editor({ text, setText }: EditorProps) {
         <TouchableOpacity style={styles.toolbarButton} onPress={handleLink}>
           <MaterialIcons name="link" size={24} color="#4c669f" />
         </TouchableOpacity>
+        <View style={styles.toolbarSeparator} />
+        <TouchableOpacity style={styles.toolbarButton} onPress={onSave}>
+          <MaterialIcons name="save" size={24} color="#4c669f" />
+        </TouchableOpacity>
       </View>
       <TextInput
         style={styles.editor}
@@ -187,6 +192,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 2,
+  },
+  toolbarSeparator: {
+    width: 1,
+    height: 24,
+    backgroundColor: "#e9ecef",
+    marginRight: 10,
   },
   editor: {
     flex: 1,

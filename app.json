@@ -103,8 +103,6 @@
       "eas": {
         "projectId": "9cf4738b-5186-4afb-8676-581cf28ce362"
       }
-    },
-    "scheme": "mde",
-    "plugins": ["expo-router"]
+    }
   }
 }
