@@ -10,6 +10,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Editor } from "./components/editor";
 import { Preview } from "./components/preview";
 import { TextIntentModule } from "./modules/text-intent";
+import { addNewIntentListener } from "./modules/text-intent/src/TextIntentModule";
 
 export const App = () => {
   const [activeTab, setActiveTab] = useState<"editor" | "preview">("editor");
@@ -19,6 +20,10 @@ export const App = () => {
   useEffect(() => {
     setText(TextIntentModule.getTextIntent());
     setLoading(false);
+    const subscription = addNewIntentListener(({ intent }) => {
+      console.log(`New intent received: ${intent}`);
+    });
+    return () => subscription.remove();
   }, []);
 
   const handleSave = () => {

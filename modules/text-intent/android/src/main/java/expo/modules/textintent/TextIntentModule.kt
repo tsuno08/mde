@@ -1,29 +1,34 @@
 package expo.modules.textintent
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
+import expo.modules.textintent.TextIntentSingleton
 
 class TextIntentModule : Module() {
-  // Each module class must implement the definition function. The definition consists of components
-  // that describes the module's functionality and behavior.
-  // See https://docs.expo.dev/modules/module-api for more details about available components.
+  companion object {
+    var instance: TextIntentModule? = null
+  }
+
+  init {
+    instance = this
+  }
+
   override fun definition() = ModuleDefinition {
-    // Sets the name of the module that JavaScript code will use to refer to the module. Takes a
-    // string as an argument.
-    // Can be inferred from module's class name, but it's recommended to set it explicitly for
-    // clarity.
-    // The module will be accessible from `requireNativeModule('TextIntent')` in JavaScript.
     Name("TextIntent")
 
-    // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-    Function("getTextIntent") { // The function name is `getTextIntent`
+    Events("onIntentReceived")
+
+    Function("getTextIntent") {
       return@Function TextIntentSingleton.text
     }
 
     Function("setTextIntent") { text: String ->
       val activity = TextIntentSingleton.activity
-      val intent = activity?.intent
-      val uri = intent?.data
+      val uri = activity?.intent?.data
 
       if (uri != null) {
         activity?.contentResolver?.openOutputStream(uri)?.use { outputStream ->
