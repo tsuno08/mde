@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+} from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Editor } from "./components/editor";
 import { Preview } from "./components/preview";
@@ -8,14 +14,30 @@ import { TextIntentModule } from "./modules/text-intent";
 export const App = () => {
   const [activeTab, setActiveTab] = useState<"editor" | "preview">("editor");
   const [text, setText] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setText(TextIntentModule.getTextIntent());
+    setLoading(false);
   }, []);
 
   const handleSave = () => {
     TextIntentModule.setTextIntent(text);
   };
+
+  if (loading) {
+    return (
+      <View
+        style={[
+          styles.container,
+          { justifyContent: "center", alignItems: "center" },
+        ]}
+      >
+        <ActivityIndicator size="large" color="#4c669f" />
+        <Text style={{ marginTop: 16, color: "#4c669f" }}>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
