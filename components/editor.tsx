@@ -15,7 +15,7 @@ interface EditorProps {
   onSave: () => void;
 }
 
-export default function Editor({ text, setText, onSave }: EditorProps) {
+export const Editor = ({ text, setText, onSave }: EditorProps) => {
   const [selection, setSelection] = useState({ start: 0, end: 0 });
 
   const handleSelectionChange = (
@@ -167,7 +167,7 @@ export default function Editor({ text, setText, onSave }: EditorProps) {
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

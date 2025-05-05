@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import Editor from "./components/editor";
-import Preview from "./components/preview";
+import { Editor } from "./components/editor";
+import { Preview } from "./components/preview";
 import { TextIntentModule } from "./modules/text-intent";
 
-export default function App() {
+export const App = () => {
   const [activeTab, setActiveTab] = useState<"editor" | "preview">("editor");
   const [text, setText] = useState("");
 
@@ -67,7 +67,7 @@ export default function App() {
       )}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

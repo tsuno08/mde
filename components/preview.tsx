@@ -6,7 +6,7 @@ interface PreviewProps {
   text: string;
 }
 
-export default function Preview({ text }: PreviewProps) {
+export const Preview = ({ text }: PreviewProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.previewContainer}>
@@ -14,7 +14,7 @@ export default function Preview({ text }: PreviewProps) {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
