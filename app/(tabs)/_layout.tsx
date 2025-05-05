@@ -18,7 +18,6 @@ export default function TabLayout() {
           shadowRadius: 4,
         },
       }}
-      initialRouteName="editor"
     >
       <Tabs.Screen
         name="editor"
