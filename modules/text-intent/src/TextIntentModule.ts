@@ -6,7 +6,7 @@ declare class TextIntentModuleClass extends NativeModule {
   setTextIntent(text: string): void;
   addListener(
     eventName: string,
-    listener: (event: any) => void
+    listener: (event: NewIntentEvent) => void
   ): EventSubscription;
 }
 
@@ -17,9 +17,3 @@ export type NewIntentEvent = {
 // This call loads the native module object from the JSI.
 export const TextIntentModule =
   requireNativeModule<TextIntentModuleClass>("TextIntent");
-
-export function addNewIntentListener(
-  listener: (event: NewIntentEvent) => void
-): EventSubscription {
-  return TextIntentModule.addListener("onIntentReceived", listener);
-}
