@@ -75,6 +75,44 @@ export default function EditorTab() {
     }
   };
 
+  const handleCode = () => {
+    const start = selection.start;
+    const end = selection.end;
+    const hasSelection = start !== end;
+
+    if (hasSelection) {
+      const selectedText = displayText.substring(start, end);
+      const newText =
+        displayText.substring(0, start) +
+        "```\n" +
+        selectedText +
+        "\n```" +
+        displayText.substring(end);
+      setDisplayText(newText);
+    } else {
+      insertAtCursor("```\n", "\n```");
+    }
+  };
+
+  const handleLink = () => {
+    const start = selection.start;
+    const end = selection.end;
+    const hasSelection = start !== end;
+
+    if (hasSelection) {
+      const selectedText = displayText.substring(start, end);
+      const newText =
+        displayText.substring(0, start) +
+        "[" +
+        selectedText +
+        "]()" +
+        displayText.substring(end);
+      setDisplayText(newText);
+    } else {
+      insertAtCursor("[", "]()");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.toolbar}>
@@ -90,6 +128,12 @@ export default function EditorTab() {
             size={24}
             color="#4c669f"
           />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.toolbarButton} onPress={handleCode}>
+          <MaterialIcons name="code" size={24} color="#4c669f" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.toolbarButton} onPress={handleLink}>
+          <MaterialIcons name="link" size={24} color="#4c669f" />
         </TouchableOpacity>
         <View style={styles.toolbarSeparator} />
         <TouchableOpacity style={styles.toolbarButton} onPress={handleSave}>
