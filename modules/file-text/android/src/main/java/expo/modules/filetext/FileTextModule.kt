@@ -1,5 +1,6 @@
 package expo.modules.filetext
 
+import android.net.Uri
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 
@@ -18,18 +19,16 @@ class FileTextModule : Module() {
     Events("onIntentReceived")
 
     Function("getFileText") {
-      return@Function FileTextSingleton.getText()
+      val uri = FileTextSingleton.getActivity()?.intent?.data ?: return@Function ""
+      return@Function mapOf("text" to FileTextSingleton.getText(), "uri" to uri)
     }
 
-    Function("setFileText") { text: String ->
-      val activity = FileTextSingleton.getActivity()
-      val uri = activity?.intent?.data
+    Function("setFileText") { text: String, uri: Uri ->
+      val activity = FileTextSingleton.getActivity() ?: return@Function "Activity not found"
 
       try {
-        if (uri != null) {
-          activity.contentResolver?.openOutputStream(uri)?.use { outputStream ->
-            outputStream.write(text.toByteArray())
-          }
+        activity.contentResolver?.openOutputStream(uri)?.use { outputStream ->
+          outputStream.write(text.toByteArray())
         }
         return@Function ""
       } catch (e: Exception) {

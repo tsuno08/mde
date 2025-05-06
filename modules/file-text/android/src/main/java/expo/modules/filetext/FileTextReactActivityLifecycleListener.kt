@@ -5,18 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import expo.modules.core.interfaces.ReactActivityLifecycleListener
 
-class FileTextReactActivityLifecycleListener :
-        ReactActivityLifecycleListener {
+class FileTextReactActivityLifecycleListener : ReactActivityLifecycleListener {
 
     override fun onCreate(activity: Activity?, savedInstanceState: Bundle?) {
+        if (activity == null) return
         FileTextSingleton.setActivity(activity)
-        activity?.intent?.let { intent ->
-            intent.data?.let { uri ->
-                activity.contentResolver.openInputStream(uri)?.use { inputStream ->
-                    val text = inputStream.bufferedReader().use { it.readText() }
-                    FileTextSingleton.setText(text)
-                }
-            }
+        val uri = activity.intent.data ?: return
+        activity.contentResolver.openInputStream(uri)?.use { inputStream ->
+            val text = inputStream.bufferedReader().use { it.readText() }
+            FileTextSingleton.setText(text)
         }
     }
 
@@ -25,7 +22,7 @@ class FileTextReactActivityLifecycleListener :
         FileTextSingleton.getActivity()?.contentResolver?.openInputStream(uri)?.use { inputStream ->
             val text = inputStream.bufferedReader().use { it.readText() }
             FileTextSingleton.setText(text)
-            FileTextModule.instance?.sendEvent("onIntentReceived", mapOf("text" to text))
+            FileTextModule.instance?.sendEvent("onIntentReceived", mapOf("text" to text, "uri" to uri))
         }
         return true
     }
