@@ -1,13 +1,11 @@
 package expo.modules.textintent
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.core.os.bundleOf
 import expo.modules.core.interfaces.ReactActivityLifecycleListener
 
-class TextIntentReactActivityLifecycleListener(activityContext: Context) :
+class TextIntentReactActivityLifecycleListener :
         ReactActivityLifecycleListener {
 
     override fun onCreate(activity: Activity?, savedInstanceState: Bundle?) {
@@ -23,10 +21,7 @@ class TextIntentReactActivityLifecycleListener(activityContext: Context) :
     }
 
     override fun onNewIntent(intent: Intent): Boolean {
-        val uri = intent.data
-        if (uri == null) {
-            return false
-        }
+        val uri = intent.data ?: return false
         TextIntentSingleton.activity?.contentResolver?.openInputStream(uri)?.use { inputStream ->
             val text = inputStream.bufferedReader().use { it.readText() }
             TextIntentSingleton.text = text

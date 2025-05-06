@@ -8,6 +8,6 @@ class TextIntentPackage : Package {
     override fun createReactActivityLifecycleListeners(
             activityContext: Context
     ): List<ReactActivityLifecycleListener> {
-        return listOf(TextIntentReactActivityLifecycleListener(activityContext))
+        return listOf(TextIntentReactActivityLifecycleListener())
     }
 }
