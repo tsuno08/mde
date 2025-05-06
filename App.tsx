@@ -21,8 +21,10 @@ export const App = () => {
     setLoading(false);
     const subscription = TextIntentModule.addListener(
       "onIntentReceived",
-      ({ intent }) => {
-        console.log(`New intent received: ${intent}`);
+      (event) => {
+        if (event.text) {
+          setText(event.text);
+        }
       }
     );
     return () => subscription.remove();

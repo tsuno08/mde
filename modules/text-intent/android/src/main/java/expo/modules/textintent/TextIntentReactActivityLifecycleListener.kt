@@ -26,7 +26,15 @@ class TextIntentReactActivityLifecycleListener(activityContext: Context) :
     }
 
     override fun onNewIntent(intent: Intent): Boolean {
-        TextIntentModule.instance?.sendEvent("onIntentReceived", bundleOf("intent" to intent))
+        val uri = intent.data
+        if (uri == null) {
+            return false
+        }
+        TextIntentSingleton.activity?.contentResolver?.openInputStream(uri)?.use { inputStream ->
+            val text = inputStream.bufferedReader().use { it.readText() }
+            TextIntentSingleton.text = "$text"
+            TextIntentModule.instance?.sendEvent("onIntentReceived", mapOf("text" to text))
+        }
         return true
     }
 }

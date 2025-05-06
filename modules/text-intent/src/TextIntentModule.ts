@@ -11,9 +11,8 @@ declare class TextIntentModuleClass extends NativeModule {
 }
 
 export type NewIntentEvent = {
-  intent: string;
+  text: string;
 };
 
-// This call loads the native module object from the JSI.
 export const TextIntentModule =
   requireNativeModule<TextIntentModuleClass>("TextIntent");
