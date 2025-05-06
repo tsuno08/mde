@@ -8,6 +8,7 @@ import {
   TextInputSelectionChangeEventData,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { ToastAndroid } from "react-native";
 
 interface EditorProps {
   text: string;

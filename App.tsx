@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { ToastAndroid } from "react-native";
 import { Editor } from "./components/editor";
 import { Preview } from "./components/preview";
 import { TextIntentModule } from "./modules/text-intent";
@@ -19,11 +20,13 @@ export const App = () => {
   useEffect(() => {
     setText(TextIntentModule.getTextIntent());
     setLoading(false);
+    ToastAndroid.show("Loaded", ToastAndroid.SHORT);
     const subscription = TextIntentModule.addListener(
       "onIntentReceived",
       (event) => {
         if (event.text) {
           setText(event.text);
+          ToastAndroid.show("Intent received", ToastAndroid.SHORT);
         }
       }
     );
@@ -32,6 +35,7 @@ export const App = () => {
 
   const handleSave = () => {
     TextIntentModule.setTextIntent(text);
+    ToastAndroid.show("Saved successfully", ToastAndroid.SHORT);
   };
 
   if (loading) {
