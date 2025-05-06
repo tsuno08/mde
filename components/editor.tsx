@@ -10,6 +10,7 @@ import { Toolbar } from "./toolbar";
 
 interface EditorProps {
   text: string;
+  uri: string;
   setText: (text: string) => void;
   onSave: () => void;
   onOpen: () => void;
@@ -18,6 +19,7 @@ interface EditorProps {
 
 export const Editor = ({
   text,
+  uri,
   setText,
   onSave,
   onOpen,
@@ -128,6 +130,7 @@ export const Editor = ({
   return (
     <View style={styles.container}>
       <Toolbar
+        uri={uri}
         onList={handleList}
         onCode={handleCode}
         onInlineCode={handleInlineCode}

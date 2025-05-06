@@ -1,6 +1,6 @@
 package expo.modules.filetext
 
-import android.net.Uri
+import androidx.core.net.toUri
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 
@@ -23,12 +23,15 @@ class FileTextModule : Module() {
       return@Function mapOf("text" to FileTextSingleton.getText(), "uri" to uri)
     }
 
-    Function("setFileText") { text: String, uri: Uri ->
+    Function("setFileText") { data: Map<String, String> ->
+      if (data["text"] == null || data["uri"] == null) {
+        return@Function "text or uri is null"
+      }
       val activity = FileTextSingleton.getActivity() ?: return@Function "Activity not found"
 
       try {
-        activity.contentResolver?.openOutputStream(uri)?.use { outputStream ->
-          outputStream.write(text.toByteArray())
+        activity.contentResolver?.openOutputStream(data["uri"]!!.toUri())?.use { outputStream ->
+          outputStream.write(data["text"]!!.toByteArray())
         }
         return@Function ""
       } catch (e: Exception) {
