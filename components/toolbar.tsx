@@ -9,6 +9,8 @@ interface ToolbarProps {
   onLink: () => void;
   onHeading: () => void;
   onSave: () => void;
+  onOpen: () => void;
+  onSaveAs: () => void;
 }
 
 export const Toolbar = ({
@@ -18,6 +20,8 @@ export const Toolbar = ({
   onLink,
   onHeading,
   onSave,
+  onOpen,
+  onSaveAs,
 }: ToolbarProps) => {
   return (
     <View style={styles.toolbar}>
@@ -39,6 +43,12 @@ export const Toolbar = ({
       <View style={styles.toolbarSeparator} />
       <TouchableOpacity style={styles.toolbarButton} onPress={onSave}>
         <MaterialIcons name="save" size={24} color="#4c669f" />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.toolbarButton} onPress={onOpen}>
+        <MaterialIcons name="folder-open" size={24} color="#4c669f" />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.toolbarButton} onPress={onSaveAs}>
+        <MaterialIcons name="save-alt" size={24} color="#4c669f" />
       </TouchableOpacity>
     </View>
   );

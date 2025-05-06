@@ -12,9 +12,17 @@ interface EditorProps {
   text: string;
   setText: (text: string) => void;
   onSave: () => void;
+  onOpen: () => void;
+  onSaveAs: () => void;
 }
 
-export const Editor = ({ text, setText, onSave }: EditorProps) => {
+export const Editor = ({
+  text,
+  setText,
+  onSave,
+  onOpen,
+  onSaveAs,
+}: EditorProps) => {
   const [selection, setSelection] = useState({ start: 0, end: 0 });
 
   const handleSelectionChange = (
@@ -126,6 +134,8 @@ export const Editor = ({ text, setText, onSave }: EditorProps) => {
         onLink={handleLink}
         onHeading={handleHeading}
         onSave={onSave}
+        onOpen={onOpen}
+        onSaveAs={onSaveAs}
       />
       <TextInput
         style={styles.editor}

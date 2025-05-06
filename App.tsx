@@ -146,19 +146,6 @@ export const App = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.actionBar}>
-        <TouchableOpacity style={styles.actionButton} onPress={openFile}>
-          <MaterialIcons name="folder-open" size={24} color="#4c669f" />
-          <Text style={styles.actionText}>Open</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.actionButton}
-          onPress={() => saveFileWithSharing()}
-        >
-          <MaterialIcons name="save-alt" size={24} color="#4c669f" />
-          <Text style={styles.actionText}>Save As</Text>
-        </TouchableOpacity>
-      </View>
       <View style={styles.tabBar}>
         <TouchableOpacity
           style={[styles.tabButton, activeTab === "editor" && styles.activeTab]}
@@ -201,7 +188,13 @@ export const App = () => {
         </TouchableOpacity>
       </View>
       {activeTab === "editor" ? (
-        <Editor text={text} setText={setText} onSave={handleSave} />
+        <Editor
+          text={text}
+          setText={setText}
+          onSave={handleSave}
+          onOpen={openFile}
+          onSaveAs={saveFileWithSharing}
+        />
       ) : (
         <Preview text={text} />
       )}
