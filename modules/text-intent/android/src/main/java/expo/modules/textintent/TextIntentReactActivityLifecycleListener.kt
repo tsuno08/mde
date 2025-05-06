@@ -9,12 +9,12 @@ class TextIntentReactActivityLifecycleListener :
         ReactActivityLifecycleListener {
 
     override fun onCreate(activity: Activity?, savedInstanceState: Bundle?) {
-        TextIntentSingleton.activity = activity
+        TextIntentSingleton.setActivity(activity)
         activity?.intent?.let { intent ->
             intent.data?.let { uri ->
                 activity.contentResolver.openInputStream(uri)?.use { inputStream ->
                     val text = inputStream.bufferedReader().use { it.readText() }
-                    TextIntentSingleton.text = text
+                    TextIntentSingleton.setText(text)
                 }
             }
         }
@@ -22,9 +22,9 @@ class TextIntentReactActivityLifecycleListener :
 
     override fun onNewIntent(intent: Intent): Boolean {
         val uri = intent.data ?: return false
-        TextIntentSingleton.activity?.contentResolver?.openInputStream(uri)?.use { inputStream ->
+        TextIntentSingleton.getActivity()?.contentResolver?.openInputStream(uri)?.use { inputStream ->
             val text = inputStream.bufferedReader().use { it.readText() }
-            TextIntentSingleton.text = text
+            TextIntentSingleton.setText(text)
             TextIntentModule.instance?.sendEvent("onIntentReceived", mapOf("text" to text))
         }
         return true

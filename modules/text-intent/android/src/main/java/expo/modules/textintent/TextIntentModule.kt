@@ -19,11 +19,11 @@ class TextIntentModule : Module() {
     Events("onIntentReceived")
 
     Function("getTextIntent") {
-      return@Function TextIntentSingleton.text
+      return@Function TextIntentSingleton.getText()
     }
 
     Function("setTextIntent") { text: String ->
-      val activity = TextIntentSingleton.activity
+      val activity = TextIntentSingleton.getActivity()
       val uri = activity?.intent?.data
 
       try {
