@@ -21,6 +21,7 @@ export const App = () => {
     setText(TextIntentModule.getTextIntent());
     setLoading(false);
     ToastAndroid.show("Loaded", ToastAndroid.SHORT);
+
     const subscription = TextIntentModule.addListener(
       "onIntentReceived",
       (event) => {
@@ -34,8 +35,16 @@ export const App = () => {
   }, []);
 
   const handleSave = () => {
-    TextIntentModule.setTextIntent(text);
-    ToastAndroid.show("Saved successfully", ToastAndroid.SHORT);
+    if (!text) {
+      ToastAndroid.show("Please enter some text", ToastAndroid.SHORT);
+      return;
+    }
+    const err = TextIntentModule.setTextIntent(text);
+    if (err) {
+      ToastAndroid.show(`Error: ${err}`, ToastAndroid.SHORT);
+    } else {
+      ToastAndroid.show("Saved successfully", ToastAndroid.SHORT);
+    }
   };
 
   if (loading) {

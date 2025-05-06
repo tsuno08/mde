@@ -1,6 +1,7 @@
 package expo.modules.textintent
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -30,10 +31,19 @@ class TextIntentModule : Module() {
       val activity = TextIntentSingleton.activity
       val uri = activity?.intent?.data
 
-      if (uri != null) {
-        activity?.contentResolver?.openOutputStream(uri)?.use { outputStream ->
-          outputStream.write(text.toByteArray())
+      try {
+        if (uri == null) {
+          activity?.openFileOutput("memo.md", Context.MODE_PRIVATE)?.use { outputStream ->
+            outputStream.write(text.toByteArray(Charsets.UTF_8))
+          }
+        } else {
+          activity?.contentResolver?.openOutputStream(uri)?.use { outputStream ->
+            outputStream.write(text.toByteArray())
+          }
         }
+        return@Function ""
+      } catch (e: Exception) {
+        return@Function e.message
       }
     }
   }
