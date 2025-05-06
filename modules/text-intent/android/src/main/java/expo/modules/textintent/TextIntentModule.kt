@@ -27,11 +27,7 @@ class TextIntentModule : Module() {
       val uri = activity?.intent?.data
 
       try {
-        if (uri == null) {
-          activity?.openFileOutput("memo.md", Context.MODE_PRIVATE)?.use { outputStream ->
-            outputStream.write(text.toByteArray(Charsets.UTF_8))
-          }
-        } else {
+        if (uri != null) {
           activity.contentResolver?.openOutputStream(uri)?.use { outputStream ->
             outputStream.write(text.toByteArray())
           }
