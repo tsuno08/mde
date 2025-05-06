@@ -1,11 +1,11 @@
-package expo.modules.textintent
+package expo.modules.filetext
 
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 
-class TextIntentModule : Module() {
+class FileTextModule : Module() {
   companion object {
-    var instance: TextIntentModule? = null
+    var instance: FileTextModule? = null
   }
 
   init {
@@ -13,16 +13,16 @@ class TextIntentModule : Module() {
   }
 
   override fun definition() = ModuleDefinition {
-    Name("TextIntent")
+    Name("FileText")
 
     Events("onIntentReceived")
 
-    Function("getTextIntent") {
-      return@Function TextIntentSingleton.getText()
+    Function("getFileText") {
+      return@Function FileTextSingleton.getText()
     }
 
-    Function("setTextIntent") { text: String ->
-      val activity = TextIntentSingleton.getActivity()
+    Function("setFileText") { text: String ->
+      val activity = FileTextSingleton.getActivity()
       val uri = activity?.intent?.data
 
       try {

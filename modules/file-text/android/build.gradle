@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 
-group = 'expo.modules.textintent'
+group = 'expo.modules.filetext'
 version = '0.7.2'
 
 def expoModulesCorePlugin = new File(project(":expo-modules-core").projectDir.absolutePath, "ExpoModulesCorePlugin.gradle")
@@ -32,7 +32,7 @@ if (useManagedAndroidSdkVersions) {
 }
 
 android {
-  namespace "expo.modules.textintent"
+  namespace "expo.modules.filetext"
   defaultConfig {
     versionCode 1
     versionName "0.7.2"

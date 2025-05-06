@@ -16,7 +16,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { ToastAndroid } from "react-native";
 import { Editor } from "./components/editor";
 import { Preview } from "./components/preview";
-import { TextIntentModule } from "./modules/text-intent";
+import { FileTextModule } from "./modules/file-text";
 import { getDocumentAsync } from "expo-document-picker";
 import { isAvailableAsync, shareAsync } from "expo-sharing";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -27,13 +27,13 @@ export const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const text = TextIntentModule.getTextIntent();
+    const text = FileTextModule.getFileText();
     if (text) {
       setText(text);
     }
     setLoading(false);
 
-    const subscription = TextIntentModule.addListener(
+    const subscription = FileTextModule.addListener(
       "onIntentReceived",
       (event) => {
         if (event.text) {
@@ -123,7 +123,7 @@ export const App = () => {
       ToastAndroid.show("Please enter some text", ToastAndroid.SHORT);
       return;
     }
-    const err = TextIntentModule.setTextIntent(text);
+    const err = FileTextModule.setFileText(text);
     if (err) {
       ToastAndroid.show(`Error: ${err}`, ToastAndroid.SHORT);
     } else {

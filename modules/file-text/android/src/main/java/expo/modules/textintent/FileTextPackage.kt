@@ -1,13 +1,13 @@
-package expo.modules.textintent
+package expo.modules.filetext
 
 import android.content.Context
 import expo.modules.core.interfaces.Package
 import expo.modules.core.interfaces.ReactActivityLifecycleListener
 
-class TextIntentPackage : Package {
+class FileTextPackage : Package {
     override fun createReactActivityLifecycleListeners(
             activityContext: Context
     ): List<ReactActivityLifecycleListener> {
-        return listOf(TextIntentReactActivityLifecycleListener())
+        return listOf(FileTextReactActivityLifecycleListener())
     }
 }

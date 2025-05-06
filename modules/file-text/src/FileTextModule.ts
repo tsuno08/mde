@@ -3,9 +3,9 @@ import { EventSubscription } from "expo-modules-core";
 
 type ErrorMessage = string;
 
-declare class TextIntentModuleClass extends NativeModule {
-  getTextIntent(): string;
-  setTextIntent(text: string): ErrorMessage;
+declare class FileTextModuleClass extends NativeModule {
+  getFileText(): string;
+  setFileText(text: string): ErrorMessage;
   addListener(
     eventName: string,
     listener: (event: NewIntentEvent) => void
@@ -16,5 +16,5 @@ export type NewIntentEvent = {
   text: string;
 };
 
-export const TextIntentModule =
-  requireNativeModule<TextIntentModuleClass>("TextIntent");
+export const FileTextModule =
+  requireNativeModule<FileTextModuleClass>("FileText");

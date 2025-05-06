@@ -1,11 +1,11 @@
-package expo.modules.textintent
+package expo.modules.filetext
 
 import android.app.Activity
 import expo.modules.core.interfaces.SingletonModule
 import java.lang.ref.WeakReference
 
-object TextIntentSingleton : SingletonModule {
-    override fun getName(): String = "TextIntent"
+object FileTextSingleton : SingletonModule {
+    override fun getName(): String = "FileText"
 
     private var activityRef: WeakReference<Activity>? = null
     private var text: String? = null
