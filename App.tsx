@@ -25,11 +25,13 @@ export const App = () => {
   const [activeTab, setActiveTab] = useState<"editor" | "preview">("editor");
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isIntentFile, setIsIntentFile] = useState(false);
 
   useEffect(() => {
     const text = FileTextModule.getFileText();
     if (text) {
       setText(text);
+      setIsIntentFile(true);
     }
     setLoading(false);
 
@@ -38,6 +40,7 @@ export const App = () => {
       ({ text }) => {
         if (text) {
           setText(text);
+          setIsIntentFile(true);
           ToastAndroid.show("Loaded", ToastAndroid.SHORT);
         }
       }
@@ -46,6 +49,7 @@ export const App = () => {
   }, []);
 
   const openFile = useCallback(async () => {
+    setIsIntentFile(false);
     try {
       const result = await getDocumentAsync({
         type: ["text/*"],
@@ -110,16 +114,14 @@ export const App = () => {
         dialogTitle: "Save As...",
       });
     } catch (error) {
-      console.error("Error sharing the file:", error);
       ToastAndroid.show(
         `Failed to save (share) the file: ${error}`,
         ToastAndroid.SHORT
       );
     }
   };
-
   const handleSave = () => {
-    if (!text) {
+    if (!text || !isIntentFile) {
       ToastAndroid.show("Please enter some text", ToastAndroid.SHORT);
       return;
     }
@@ -191,6 +193,7 @@ export const App = () => {
       {activeTab === "editor" ? (
         <Editor
           text={text}
+          isIntentFile={isIntentFile}
           setText={setText}
           onSave={handleSave}
           onOpen={openFile}

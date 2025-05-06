@@ -3,6 +3,7 @@ import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 interface ToolbarProps {
+  isIntentFile: boolean;
   onList: () => void;
   onCode: () => void;
   onInlineCode: () => void;
@@ -14,6 +15,7 @@ interface ToolbarProps {
 }
 
 export const Toolbar = ({
+  isIntentFile,
   onList,
   onCode,
   onInlineCode,
@@ -45,9 +47,9 @@ export const Toolbar = ({
         <MaterialIcons name="folder-open" size={20} color="#4c669f" />
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.toolbarButton, false && { opacity: 0.5 }]}
+        style={[styles.toolbarButton, !isIntentFile && { opacity: 0.5 }]}
         onPress={onSave}
-        disabled={false}
+        disabled={!isIntentFile}
       >
         <MaterialIcons name="save" size={20} color="#4c669f" />
       </TouchableOpacity>
