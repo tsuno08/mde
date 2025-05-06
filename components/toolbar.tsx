@@ -26,29 +26,29 @@ export const Toolbar = ({
   return (
     <View style={styles.toolbar}>
       <TouchableOpacity style={styles.toolbarButton} onPress={onList}>
-        <MaterialIcons name="format-list-bulleted" size={24} color="#4c669f" />
+        <MaterialIcons name="format-list-bulleted" size={20} color="#4c669f" />
       </TouchableOpacity>
       <TouchableOpacity style={styles.toolbarButton} onPress={onCode}>
-        <MaterialIcons name="code" size={24} color="#4c669f" />
+        <MaterialIcons name="code" size={20} color="#4c669f" />
       </TouchableOpacity>
       <TouchableOpacity style={styles.toolbarButton} onPress={onInlineCode}>
-        <MaterialIcons name="data-object" size={24} color="#4c669f" />
+        <MaterialIcons name="data-object" size={20} color="#4c669f" />
       </TouchableOpacity>
       <TouchableOpacity style={styles.toolbarButton} onPress={onLink}>
-        <MaterialIcons name="link" size={24} color="#4c669f" />
+        <MaterialIcons name="link" size={20} color="#4c669f" />
       </TouchableOpacity>
       <TouchableOpacity style={styles.toolbarButton} onPress={onHeading}>
-        <MaterialIcons name="title" size={24} color="#4c669f" />
+        <MaterialIcons name="title" size={20} color="#4c669f" />
       </TouchableOpacity>
       <View style={styles.toolbarSeparator} />
-      <TouchableOpacity style={styles.toolbarButton} onPress={onSave}>
-        <MaterialIcons name="save" size={24} color="#4c669f" />
-      </TouchableOpacity>
       <TouchableOpacity style={styles.toolbarButton} onPress={onOpen}>
-        <MaterialIcons name="folder-open" size={24} color="#4c669f" />
+        <MaterialIcons name="folder-open" size={20} color="#4c669f" />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.toolbarButton} onPress={onSave}>
+        <MaterialIcons name="save" size={20} color="#4c669f" />
       </TouchableOpacity>
       <TouchableOpacity style={styles.toolbarButton} onPress={onSaveAs}>
-        <MaterialIcons name="save-alt" size={24} color="#4c669f" />
+        <MaterialIcons name="save-as" size={20} color="#4c669f" />
       </TouchableOpacity>
     </View>
   );
