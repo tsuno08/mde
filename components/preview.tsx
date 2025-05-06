@@ -24,8 +24,6 @@ const styles = StyleSheet.create({
   previewContainer: {
     flex: 1,
     backgroundColor: "#fff",
-    borderRadius: 12,
-    margin: 10,
     padding: 20,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
