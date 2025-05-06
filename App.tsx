@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   View,
@@ -6,18 +6,19 @@ import {
   Text,
   ActivityIndicator,
 } from "react-native";
-import { pick, saveDocuments, types } from "@react-native-documents/picker";
 import {
   cacheDirectory,
-  copyAsync,
   EncodingType,
   readAsStringAsync,
+  writeAsStringAsync,
 } from "expo-file-system";
 import { MaterialIcons } from "@expo/vector-icons";
 import { ToastAndroid } from "react-native";
 import { Editor } from "./components/editor";
 import { Preview } from "./components/preview";
 import { TextIntentModule } from "./modules/text-intent";
+import { getDocumentAsync } from "expo-document-picker";
+import { isAvailableAsync, shareAsync } from "expo-sharing";
 
 export const App = () => {
   const [activeTab, setActiveTab] = useState<"editor" | "preview">("editor");
@@ -41,63 +42,76 @@ export const App = () => {
     return () => subscription.remove();
   }, []);
 
-  const openDocument = async (): Promise<string | void> => {
+  const openFile = useCallback(async () => {
     try {
-      const [res] = await pick({
-        type: [
-          types.plainText,
-          types.doc,
-          types.docx,
-          types.json,
-          types.csv,
-          "text/markdown",
-        ],
+      const result = await getDocumentAsync({
+        type: ["text/*"],
+        copyToCacheDirectory: true,
       });
 
-      if (!res) {
-        ToastAndroid.show("No file selected", ToastAndroid.SHORT);
-        return;
+      if (result.assets && result.assets.length > 0) {
+        const asset = result.assets[0];
+        if (asset.uri) {
+          const content = await readAsStringAsync(asset.uri, {
+            encoding: EncodingType.UTF8,
+          });
+          setText(content);
+          ToastAndroid.show(
+            `Opened ${asset.name || "file"}.`,
+            ToastAndroid.SHORT
+          );
+        } else {
+          ToastAndroid.show("Failed to get the file URI.", ToastAndroid.SHORT);
+        }
+      } else if (result.canceled) {
+        ToastAndroid.show("File selection was canceled.", ToastAndroid.SHORT);
+      } else {
+        ToastAndroid.show(
+          "Failed to open the file. Unexpected result.",
+          ToastAndroid.SHORT
+        );
       }
-      if (res.error) {
-        ToastAndroid.show("Error: " + res.error, ToastAndroid.SHORT);
-        return;
-      }
-      const pickedUri = res.uri;
-      const fileName = pickedUri.split("/").pop();
-      const cacheDir = cacheDirectory;
-      const localUri = `${cacheDir}${fileName}`;
+    } catch (error) {
+      ToastAndroid.show(
+        `Failed to open the file: ${error}`,
+        ToastAndroid.SHORT
+      );
+    }
+  }, []);
 
-      await copyAsync({
-        from: pickedUri,
-        to: localUri,
-      });
+  const saveFileWithSharing = async () => {
+    if (!text) {
+      ToastAndroid.show("No content to save.", ToastAndroid.SHORT);
+      return;
+    }
 
-      const text = await readAsStringAsync(localUri, {
+    const defaultFilename = "Untitled.md";
+    const fileUri = cacheDirectory + defaultFilename;
+
+    try {
+      await writeAsStringAsync(fileUri, text, {
         encoding: EncodingType.UTF8,
       });
-      console.log("File content: ", text, "local URI: ", localUri);
-      setText(text);
-      ToastAndroid.show("Opened successfully", ToastAndroid.SHORT);
-    } catch (e) {
-      ToastAndroid.show("Error: " + e, ToastAndroid.SHORT);
-    }
-  };
 
-  const saveAsDocument = async (): Promise<void> => {
-    try {
-      if (!text) {
-        ToastAndroid.show("Please enter some text", ToastAndroid.SHORT);
+      const canShare = await isAvailableAsync();
+      if (!canShare) {
+        ToastAndroid.show(
+          "Sharing is not available on this device.",
+          ToastAndroid.SHORT
+        );
         return;
       }
-      await saveDocuments({
-        sourceUris: ["content://com.android.providers.downloads.documents/mde"],
+
+      await shareAsync(fileUri, {
         mimeType: "text/markdown",
-        fileName: "Untitled.md",
+        dialogTitle: "Save As...",
       });
-      ToastAndroid.show("Saved successfully", ToastAndroid.SHORT);
-    } catch (e) {
-      ToastAndroid.show("Error: " + e, ToastAndroid.SHORT);
-      console.error("Error saving document: ", e);
+    } catch (error) {
+      console.error("Error sharing the file:", error);
+      ToastAndroid.show(
+        `Failed to save (share) the file: ${error}`,
+        ToastAndroid.SHORT
+      );
     }
   };
 
@@ -131,13 +145,13 @@ export const App = () => {
   return (
     <View style={styles.container}>
       <View style={styles.actionBar}>
-        <TouchableOpacity style={styles.actionButton} onPress={openDocument}>
+        <TouchableOpacity style={styles.actionButton} onPress={openFile}>
           <MaterialIcons name="folder-open" size={24} color="#4c669f" />
           <Text style={styles.actionText}>Open</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.actionButton}
-          onPress={() => saveAsDocument()}
+          onPress={() => saveFileWithSharing()}
         >
           <MaterialIcons name="save-alt" size={24} color="#4c669f" />
           <Text style={styles.actionText}>Save As</Text>
