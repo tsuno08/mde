@@ -25,27 +25,20 @@ export const App = () => {
   const [activeTab, setActiveTab] = useState<"editor" | "preview">("editor");
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(true);
-  const [uri, setUri] = useState("");
 
   useEffect(() => {
-    const { text, uri } = FileTextModule.getFileText();
+    const text = FileTextModule.getFileText();
     if (text) {
       setText(text);
-    }
-    if (uri) {
-      setUri(uri);
     }
     setLoading(false);
 
     const subscription = FileTextModule.addListener(
       "onIntentReceived",
-      ({ text, uri }) => {
+      ({ text }) => {
         if (text) {
           setText(text);
           ToastAndroid.show("Loaded", ToastAndroid.SHORT);
-        }
-        if (uri) {
-          setUri(uri);
         }
       }
     );
@@ -62,8 +55,6 @@ export const App = () => {
       if (result.assets && result.assets.length > 0) {
         const asset = result.assets[0];
         if (asset.uri) {
-          console.log("File URI:", asset.uri);
-          setUri(asset.uri);
           const content = await readAsStringAsync(asset.uri, {
             encoding: EncodingType.UTF8,
           });
@@ -128,11 +119,11 @@ export const App = () => {
   };
 
   const handleSave = () => {
-    if (!text || !uri) {
+    if (!text) {
       ToastAndroid.show("Please enter some text", ToastAndroid.SHORT);
       return;
     }
-    const err = FileTextModule.setFileText({ text, uri });
+    const err = FileTextModule.setFileText(text);
     if (err) {
       ToastAndroid.show(`Error: ${err}`, ToastAndroid.SHORT);
     } else {
@@ -200,7 +191,6 @@ export const App = () => {
       {activeTab === "editor" ? (
         <Editor
           text={text}
-          uri={uri}
           setText={setText}
           onSave={handleSave}
           onOpen={openFile}

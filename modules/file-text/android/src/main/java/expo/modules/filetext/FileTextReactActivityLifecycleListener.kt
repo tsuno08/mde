@@ -22,7 +22,7 @@ class FileTextReactActivityLifecycleListener : ReactActivityLifecycleListener {
         FileTextSingleton.getActivity()?.contentResolver?.openInputStream(uri)?.use { inputStream ->
             val text = inputStream.bufferedReader().use { it.readText() }
             FileTextSingleton.setText(text)
-            FileTextModule.instance?.sendEvent("onIntentReceived", mapOf("text" to text, "uri" to uri))
+            FileTextModule.instance?.sendEvent("onIntentReceived", mapOf("text" to text))
         }
         return true
     }

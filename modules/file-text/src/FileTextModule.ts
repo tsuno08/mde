@@ -4,17 +4,16 @@ import { EventSubscription } from "expo-modules-core";
 type ErrorMessage = string;
 
 declare class FileTextModuleClass extends NativeModule {
-  getFileText(): FileTextData;
-  setFileText(data: FileTextData): ErrorMessage;
+  getFileText(): string;
+  setFileText(text: string): ErrorMessage;
   addListener(
     eventName: string,
-    listener: (event: FileTextData) => void
+    listener: (event: EventData) => void
   ): EventSubscription;
 }
 
-export type FileTextData = {
+export type EventData = {
   text: string;
-  uri: string;
 };
 
 export const FileTextModule =

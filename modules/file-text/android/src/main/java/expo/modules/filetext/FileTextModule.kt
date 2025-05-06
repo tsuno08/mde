@@ -19,19 +19,16 @@ class FileTextModule : Module() {
     Events("onIntentReceived")
 
     Function("getFileText") {
-      val uri = FileTextSingleton.getActivity()?.intent?.data ?: return@Function ""
-      return@Function mapOf("text" to FileTextSingleton.getText(), "uri" to uri)
+      return@Function FileTextSingleton.getText()
     }
 
-    Function("setFileText") { data: Map<String, String> ->
-      if (data["text"] == null || data["uri"] == null) {
-        return@Function "text or uri is null"
-      }
-      val activity = FileTextSingleton.getActivity() ?: return@Function "Activity not found"
+    Function("setFileText") { text: String ->
+      val activity = FileTextSingleton.getActivity() ?: return@Function "uri not found"
+      val uri = activity.intent.data ?: return@Function "uri not found"
 
       try {
-        activity.contentResolver?.openOutputStream(data["uri"]!!.toUri())?.use { outputStream ->
-          outputStream.write(data["text"]!!.toByteArray())
+        activity.contentResolver?.openOutputStream(uri)?.use { outputStream ->
+          outputStream.write(text.toByteArray())
         }
         return@Function ""
       } catch (e: Exception) {
