@@ -8,7 +8,6 @@ import {
   TextInputSelectionChangeEventData,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { ToastAndroid } from "react-native";
 
 interface EditorProps {
   text: string;
@@ -37,14 +36,6 @@ export const Editor = ({ text, setText, onSave }: EditorProps) => {
       suffix +
       text.substring(end);
     setText(newText);
-  };
-
-  const handleBold = () => {
-    insertAtCursor("**", "**");
-  };
-
-  const handleItalic = () => {
-    insertAtCursor("*", "*");
   };
 
   const handleList = () => {
@@ -123,15 +114,13 @@ export const Editor = ({ text, setText, onSave }: EditorProps) => {
     }
   };
 
+  const handleHeading = () => {
+    insertAtCursor("# ");
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.toolbar}>
-        <TouchableOpacity style={styles.toolbarButton} onPress={handleBold}>
-          <MaterialIcons name="format-bold" size={24} color="#4c669f" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.toolbarButton} onPress={handleItalic}>
-          <MaterialIcons name="format-italic" size={24} color="#4c669f" />
-        </TouchableOpacity>
         <TouchableOpacity style={styles.toolbarButton} onPress={handleList}>
           <MaterialIcons
             name="format-list-bulleted"
@@ -150,6 +139,9 @@ export const Editor = ({ text, setText, onSave }: EditorProps) => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.toolbarButton} onPress={handleLink}>
           <MaterialIcons name="link" size={24} color="#4c669f" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.toolbarButton} onPress={handleHeading}>
+          <MaterialIcons name="title" size={24} color="#4c669f" />
         </TouchableOpacity>
         <View style={styles.toolbarSeparator} />
         <TouchableOpacity style={styles.toolbarButton} onPress={onSave}>

@@ -26,16 +26,18 @@ export const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setText(TextIntentModule.getTextIntent());
+    const text = TextIntentModule.getTextIntent();
+    if (text) {
+      setText(text);
+    }
     setLoading(false);
-    ToastAndroid.show("Loaded", ToastAndroid.SHORT);
 
     const subscription = TextIntentModule.addListener(
       "onIntentReceived",
       (event) => {
         if (event.text) {
           setText(event.text);
-          ToastAndroid.show("Intent received", ToastAndroid.SHORT);
+          ToastAndroid.show("Loaded", ToastAndroid.SHORT);
         }
       }
     );
