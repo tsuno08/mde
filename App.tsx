@@ -19,6 +19,7 @@ import { Preview } from "./components/preview";
 import { TextIntentModule } from "./modules/text-intent";
 import { getDocumentAsync } from "expo-document-picker";
 import { isAvailableAsync, shareAsync } from "expo-sharing";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export const App = () => {
   const [activeTab, setActiveTab] = useState<"editor" | "preview">("editor");
@@ -145,7 +146,7 @@ export const App = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.tabBar}>
         <TouchableOpacity
           style={[styles.tabButton, activeTab === "editor" && styles.activeTab]}
@@ -198,7 +199,7 @@ export const App = () => {
       ) : (
         <Preview text={text} />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

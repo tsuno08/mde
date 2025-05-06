@@ -1,6 +1,5 @@
 package expo.modules.textintent
 
-import android.content.Context
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 
