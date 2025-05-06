@@ -3,11 +3,10 @@ import {
   StyleSheet,
   TextInput,
   View,
-  TouchableOpacity,
   NativeSyntheticEvent,
   TextInputSelectionChangeEventData,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Toolbar } from "./toolbar";
 
 interface EditorProps {
   text: string;
@@ -120,34 +119,14 @@ export const Editor = ({ text, setText, onSave }: EditorProps) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.toolbar}>
-        <TouchableOpacity style={styles.toolbarButton} onPress={handleList}>
-          <MaterialIcons
-            name="format-list-bulleted"
-            size={24}
-            color="#4c669f"
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.toolbarButton} onPress={handleCode}>
-          <MaterialIcons name="code" size={24} color="#4c669f" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.toolbarButton}
-          onPress={handleInlineCode}
-        >
-          <MaterialIcons name="data-object" size={24} color="#4c669f" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.toolbarButton} onPress={handleLink}>
-          <MaterialIcons name="link" size={24} color="#4c669f" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.toolbarButton} onPress={handleHeading}>
-          <MaterialIcons name="title" size={24} color="#4c669f" />
-        </TouchableOpacity>
-        <View style={styles.toolbarSeparator} />
-        <TouchableOpacity style={styles.toolbarButton} onPress={onSave}>
-          <MaterialIcons name="save" size={24} color="#4c669f" />
-        </TouchableOpacity>
-      </View>
+      <Toolbar
+        onList={handleList}
+        onCode={handleCode}
+        onInlineCode={handleInlineCode}
+        onLink={handleLink}
+        onHeading={handleHeading}
+        onSave={onSave}
+      />
       <TextInput
         style={styles.editor}
         multiline
@@ -166,31 +145,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f8f9fa",
-  },
-  toolbar: {
-    flexDirection: "row",
-    padding: 10,
-    backgroundColor: "#fff",
-    borderBottomWidth: 1,
-    borderBottomColor: "#e9ecef",
-    alignItems: "center",
-  },
-  toolbarButton: {
-    padding: 8,
-    marginRight: 10,
-    borderRadius: 6,
-    backgroundColor: "#f8f9fa",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  toolbarSeparator: {
-    width: 1,
-    height: 24,
-    backgroundColor: "#e9ecef",
-    marginRight: 10,
   },
   editor: {
     flex: 1,
