@@ -10,6 +10,7 @@ declare class FileTextModuleClass extends NativeModule {
     eventName: string,
     listener: (event: EventData) => void
   ): EventSubscription;
+  openTextFile(): string;
 }
 
 export type EventData = {

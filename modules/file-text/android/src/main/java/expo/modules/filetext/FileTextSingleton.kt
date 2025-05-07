@@ -1,6 +1,7 @@
 package expo.modules.filetext
 
 import android.app.Activity
+import android.net.Uri
 import expo.modules.core.interfaces.SingletonModule
 import java.lang.ref.WeakReference
 
@@ -9,6 +10,7 @@ object FileTextSingleton : SingletonModule {
 
     private var activityRef: WeakReference<Activity>? = null
     private var text: String? = null
+    private var uri: Uri? = null
 
     fun setText(text: String) {
         this.text = text
@@ -21,4 +23,10 @@ object FileTextSingleton : SingletonModule {
     }
 
     fun getActivity(): Activity? = activityRef?.get()
+
+    fun setUri(uri: Uri) {
+        this.uri = uri
+    }
+
+    fun getUri(): Uri? = uri
 }

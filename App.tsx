@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -9,7 +9,6 @@ import {
 import {
   cacheDirectory,
   EncodingType,
-  readAsStringAsync,
   writeAsStringAsync,
 } from "expo-file-system";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -17,7 +16,6 @@ import { ToastAndroid } from "react-native";
 import { Editor } from "./components/editor";
 import { Preview } from "./components/preview";
 import { FileTextModule } from "./modules/file-text";
-import { getDocumentAsync } from "expo-document-picker";
 import { isAvailableAsync, shareAsync } from "expo-sharing";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -48,43 +46,10 @@ export const App = () => {
     return () => subscription.remove();
   }, []);
 
-  const openFile = useCallback(async () => {
-    setIsIntentFile(false);
-    try {
-      const result = await getDocumentAsync({
-        type: ["text/*"],
-        copyToCacheDirectory: true,
-      });
-
-      if (result.assets && result.assets.length > 0) {
-        const asset = result.assets[0];
-        if (asset.uri) {
-          const content = await readAsStringAsync(asset.uri, {
-            encoding: EncodingType.UTF8,
-          });
-          setText(content);
-          ToastAndroid.show(
-            `Opened ${asset.name || "file"}.`,
-            ToastAndroid.SHORT
-          );
-        } else {
-          ToastAndroid.show("Failed to get the file URI.", ToastAndroid.SHORT);
-        }
-      } else if (result.canceled) {
-        ToastAndroid.show("File selection was canceled.", ToastAndroid.SHORT);
-      } else {
-        ToastAndroid.show(
-          "Failed to open the file. Unexpected result.",
-          ToastAndroid.SHORT
-        );
-      }
-    } catch (error) {
-      ToastAndroid.show(
-        `Failed to open the file: ${error}`,
-        ToastAndroid.SHORT
-      );
-    }
-  }, []);
+  const openFile = () => {
+    FileTextModule.openTextFile();
+    setIsIntentFile(true);
+  };
 
   const saveFileWithSharing = async () => {
     if (!text) {
@@ -120,6 +85,7 @@ export const App = () => {
       );
     }
   };
+
   const handleSave = () => {
     if (!text || !isIntentFile) {
       ToastAndroid.show("Please enter some text", ToastAndroid.SHORT);
