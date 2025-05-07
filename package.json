@@ -4,8 +4,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "expo start",
-    "android": "expo run:android",
-    "eas-build-pre-install": "corepack enable"
+    "android": "expo run:android"
   },
   "dependencies": {
     "expo": "~53.0.6",
