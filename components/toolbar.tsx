@@ -12,22 +12,22 @@ import { isAvailableAsync, shareAsync } from "expo-sharing";
 
 export const Toolbar = () => {
   const {
-    handleList: onList,
-    handleCode: onCode,
-    handleInlineCode: onInlineCode,
-    handleLink: onLink,
-    handleHeading: onHeading,
+    handleList,
+    handleCode,
+    handleInlineCode,
+    handleLink,
+    handleHeading,
     text,
     setIsFileOpen,
     isFileOpen,
   } = useEditorStore();
 
-  const onOpen = () => {
+  const handleOpen = () => {
     FileTextModule.openTextFile();
     setIsFileOpen(true);
   };
 
-  const onShare = async () => {
+  const handleShare = async () => {
     if (!text) {
       ToastAndroid.show("No content to save.", ToastAndroid.SHORT);
       return;
@@ -62,7 +62,7 @@ export const Toolbar = () => {
     }
   };
 
-  const onSave = () => {
+  const handleSave = () => {
     if (!text || !isFileOpen) {
       ToastAndroid.show("Please enter some text", ToastAndroid.SHORT);
       return;
@@ -78,11 +78,11 @@ export const Toolbar = () => {
   return (
     <View style={styles.toolbar}>
       {[
-        { icon: "format-list-bulleted" as const, onPress: onList },
-        { icon: "code" as const, onPress: onCode },
-        { icon: "data-object" as const, onPress: onInlineCode },
-        { icon: "link" as const, onPress: onLink },
-        { icon: "title" as const, onPress: onHeading },
+        { icon: "format-list-bulleted" as const, onPress: handleList },
+        { icon: "code" as const, onPress: handleCode },
+        { icon: "data-object" as const, onPress: handleInlineCode },
+        { icon: "link" as const, onPress: handleLink },
+        { icon: "title" as const, onPress: handleHeading },
       ].map((item) => (
         <TouchableOpacity
           key={item.icon}
@@ -94,12 +94,12 @@ export const Toolbar = () => {
       ))}
       <View style={styles.toolbarSeparator} />
       {[
-        { icon: "folder-open" as const, onPress: onOpen },
+        { icon: "folder-open" as const, onPress: handleOpen },
         {
           icon: "save" as const,
-          onPress: isFileOpen ? onSave : onShare,
+          onPress: isFileOpen ? handleSave : handleShare,
         },
-        { icon: "save-as" as const, onPress: onShare },
+        { icon: "save-as" as const, onPress: handleShare },
       ].map((item) => (
         <TouchableOpacity
           key={item.icon}
