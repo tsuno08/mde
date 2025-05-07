@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   StyleSheet,
   TextInput,
@@ -6,26 +6,10 @@ import {
   NativeSyntheticEvent,
   TextInputSelectionChangeEventData,
 } from "react-native";
-import { Toolbar } from "./toolbar";
+import useEditorStore from "../store";
 
-interface EditorProps {
-  text: string;
-  isIntentFile: boolean;
-  setText: (text: string) => void;
-  onSave: () => void;
-  onOpen: () => void;
-  onSaveAs: () => void;
-}
-
-export const Editor = ({
-  text,
-  isIntentFile,
-  setText,
-  onSave,
-  onOpen,
-  onSaveAs,
-}: EditorProps) => {
-  const [selection, setSelection] = useState({ start: 0, end: 0 });
+export const Editor = () => {
+  const { text, setText, setSelection } = useEditorStore();
 
   const handleSelectionChange = (
     event: NativeSyntheticEvent<TextInputSelectionChangeEventData>
@@ -33,113 +17,8 @@ export const Editor = ({
     setSelection(event.nativeEvent.selection);
   };
 
-  const insertAtCursor = (prefix: string, suffix: string = "") => {
-    const start = selection.start;
-    const end = selection.end;
-    const hasSelection = start !== end;
-    const selectedText = hasSelection ? text.substring(start, end) : "";
-    const newText =
-      text.substring(0, start) +
-      prefix +
-      selectedText +
-      suffix +
-      text.substring(end);
-    setText(newText);
-  };
-
-  const handleList = () => {
-    const start = selection.start;
-    const end = selection.end;
-    const hasSelection = start !== end;
-
-    if (hasSelection) {
-      const selectedText = text.substring(start, end);
-      const lines = selectedText.split("\n");
-      const formattedLines = lines
-        .map((line) => (line.trim() ? `- ${line}` : line))
-        .join("\n");
-      const newText =
-        text.substring(0, start) + formattedLines + text.substring(end);
-      setText(newText);
-    } else {
-      insertAtCursor("- ");
-    }
-  };
-
-  const handleCode = () => {
-    const start = selection.start;
-    const end = selection.end;
-    const hasSelection = start !== end;
-
-    if (hasSelection) {
-      const selectedText = text.substring(start, end);
-      const newText =
-        text.substring(0, start) +
-        "```\n" +
-        selectedText +
-        "\n```" +
-        text.substring(end);
-      setText(newText);
-    } else {
-      insertAtCursor("```\n", "\n```");
-    }
-  };
-
-  const handleInlineCode = () => {
-    const start = selection.start;
-    const end = selection.end;
-    const hasSelection = start !== end;
-
-    if (hasSelection) {
-      const selectedText = text.substring(start, end);
-      const newText =
-        text.substring(0, start) +
-        "`" +
-        selectedText +
-        "`" +
-        text.substring(end);
-      setText(newText);
-    } else {
-      insertAtCursor("`", "`");
-    }
-  };
-
-  const handleLink = () => {
-    const start = selection.start;
-    const end = selection.end;
-    const hasSelection = start !== end;
-
-    if (hasSelection) {
-      const selectedText = text.substring(start, end);
-      const newText =
-        text.substring(0, start) +
-        "[" +
-        selectedText +
-        "]()" +
-        text.substring(end);
-      setText(newText);
-    } else {
-      insertAtCursor("[", "]()");
-    }
-  };
-
-  const handleHeading = () => {
-    insertAtCursor("# ");
-  };
-
   return (
     <View style={styles.container}>
-      <Toolbar
-        isIntentFile={isIntentFile}
-        onList={handleList}
-        onCode={handleCode}
-        onInlineCode={handleInlineCode}
-        onLink={handleLink}
-        onHeading={handleHeading}
-        onSave={onSave}
-        onOpen={onOpen}
-        onSaveAs={onSaveAs}
-      />
       <TextInput
         style={styles.editor}
         multiline

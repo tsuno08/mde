@@ -1,12 +1,10 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import Markdown from "react-native-markdown-display";
+import useEditorStore from "../store";
 
-interface PreviewProps {
-  text: string;
-}
-
-export const Preview = ({ text }: PreviewProps) => {
+export const Preview = () => {
+  const { text } = useEditorStore();
   return (
     <View style={styles.container}>
       <View style={styles.previewContainer}>

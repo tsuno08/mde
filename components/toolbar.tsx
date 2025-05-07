@@ -1,61 +1,114 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity, ToastAndroid } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import useEditorStore from "../store";
+import { FileTextModule } from "../modules/file-text";
+import {
+  cacheDirectory,
+  EncodingType,
+  writeAsStringAsync,
+} from "expo-file-system";
+import { isAvailableAsync, shareAsync } from "expo-sharing";
 
-interface ToolbarProps {
-  isIntentFile: boolean;
-  onList: () => void;
-  onCode: () => void;
-  onInlineCode: () => void;
-  onLink: () => void;
-  onHeading: () => void;
-  onSave: () => void;
-  onOpen: () => void;
-  onSaveAs: () => void;
-}
+export const Toolbar = () => {
+  const {
+    handleList: onList,
+    handleCode: onCode,
+    handleInlineCode: onInlineCode,
+    handleLink: onLink,
+    handleHeading: onHeading,
+    text,
+    setIsFileOpen,
+    isFileOpen,
+  } = useEditorStore();
 
-export const Toolbar = ({
-  isIntentFile,
-  onList,
-  onCode,
-  onInlineCode,
-  onLink,
-  onHeading,
-  onSave,
-  onOpen,
-  onSaveAs,
-}: ToolbarProps) => {
+  const onOpen = () => {
+    FileTextModule.openTextFile();
+    setIsFileOpen(true);
+  };
+
+  const onShare = async () => {
+    if (!text) {
+      ToastAndroid.show("No content to save.", ToastAndroid.SHORT);
+      return;
+    }
+
+    const defaultFilename = "Untitled.md";
+    const fileUri = cacheDirectory + defaultFilename;
+
+    try {
+      await writeAsStringAsync(fileUri, text, {
+        encoding: EncodingType.UTF8,
+      });
+
+      const canShare = await isAvailableAsync();
+      if (!canShare) {
+        ToastAndroid.show(
+          "Sharing is not available on this device.",
+          ToastAndroid.SHORT
+        );
+        return;
+      }
+
+      await shareAsync(fileUri, {
+        mimeType: "text/markdown",
+        dialogTitle: "Save As...",
+      });
+    } catch (error) {
+      ToastAndroid.show(
+        `Failed to save (share) the file: ${error}`,
+        ToastAndroid.SHORT
+      );
+    }
+  };
+
+  const onSave = () => {
+    if (!text || !isFileOpen) {
+      ToastAndroid.show("Please enter some text", ToastAndroid.SHORT);
+      return;
+    }
+    const err = FileTextModule.setFileText(text);
+    if (err) {
+      ToastAndroid.show(`Error: ${err}`, ToastAndroid.SHORT);
+    } else {
+      ToastAndroid.show("Saved successfully", ToastAndroid.SHORT);
+    }
+  };
+
   return (
     <View style={styles.toolbar}>
-      <TouchableOpacity style={styles.toolbarButton} onPress={onList}>
-        <MaterialIcons name="format-list-bulleted" size={20} color="#4c669f" />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.toolbarButton} onPress={onCode}>
-        <MaterialIcons name="code" size={20} color="#4c669f" />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.toolbarButton} onPress={onInlineCode}>
-        <MaterialIcons name="data-object" size={20} color="#4c669f" />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.toolbarButton} onPress={onLink}>
-        <MaterialIcons name="link" size={20} color="#4c669f" />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.toolbarButton} onPress={onHeading}>
-        <MaterialIcons name="title" size={20} color="#4c669f" />
-      </TouchableOpacity>
+      {[
+        { icon: "format-list-bulleted" as const, onPress: onList },
+        { icon: "code" as const, onPress: onCode },
+        { icon: "data-object" as const, onPress: onInlineCode },
+        { icon: "link" as const, onPress: onLink },
+        { icon: "title" as const, onPress: onHeading },
+      ].map((item) => (
+        <TouchableOpacity
+          key={item.icon}
+          style={styles.toolbarButton}
+          onPress={item.onPress}
+        >
+          <MaterialIcons name={item.icon} size={20} color="#4c669f" />
+        </TouchableOpacity>
+      ))}
       <View style={styles.toolbarSeparator} />
-      <TouchableOpacity style={styles.toolbarButton} onPress={onOpen}>
-        <MaterialIcons name="folder-open" size={20} color="#4c669f" />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.toolbarButton, !isIntentFile && { opacity: 0.5 }]}
-        onPress={onSave}
-        disabled={!isIntentFile}
-      >
-        <MaterialIcons name="save" size={20} color="#4c669f" />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.toolbarButton} onPress={onSaveAs}>
-        <MaterialIcons name="save-as" size={20} color="#4c669f" />
-      </TouchableOpacity>
+      {[
+        { icon: "folder-open" as const, onPress: onOpen },
+        {
+          icon: "save" as const,
+          onPress: isFileOpen ? onSave : onShare,
+        },
+        { icon: "save-as" as const, onPress: onShare },
+      ].map((item) => (
+        <TouchableOpacity
+          key={item.icon}
+          style={styles.toolbarButton}
+          onPress={item.onPress}
+        >
+          <MaterialIcons name={item.icon} size={20} color="#4c669f" />
+        </TouchableOpacity>
+      ))}
     </View>
   );
 };
