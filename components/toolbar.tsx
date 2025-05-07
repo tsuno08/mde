@@ -78,11 +78,11 @@ export const Toolbar = () => {
   return (
     <View style={styles.toolbar}>
       {[
-        { icon: "format-list-bulleted" as const, onPress: handleList },
-        { icon: "code" as const, onPress: handleCode },
-        { icon: "data-object" as const, onPress: handleInlineCode },
-        { icon: "link" as const, onPress: handleLink },
         { icon: "title" as const, onPress: handleHeading },
+        { icon: "format-list-bulleted" as const, onPress: handleList },
+        { icon: "link" as const, onPress: handleLink },
+        { icon: "code" as const, onPress: handleInlineCode },
+        { icon: "segment" as const, onPress: handleCode },
       ].map((item) => (
         <TouchableOpacity
           key={item.icon}
