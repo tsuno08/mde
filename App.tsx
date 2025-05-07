@@ -43,8 +43,8 @@ export const App = () => {
           { justifyContent: "center", alignItems: "center" },
         ]}
       >
-        <ActivityIndicator size="large" color="#4c669f" />
-        <Text style={{ marginTop: 16, color: "#4c669f" }}>Loading...</Text>
+        <ActivityIndicator size="large" color="#333" />
+        <Text style={{ marginTop: 16, color: "#333" }}>Loading...</Text>
       </View>
     );
   }

@@ -89,7 +89,7 @@ export const Toolbar = () => {
           style={styles.toolbarButton}
           onPress={item.onPress}
         >
-          <MaterialIcons name={item.icon} size={20} color="#4c669f" />
+          <MaterialIcons name={item.icon} size={20} color="#333" />
         </TouchableOpacity>
       ))}
       <View style={styles.toolbarSeparator} />
@@ -106,7 +106,7 @@ export const Toolbar = () => {
           style={styles.toolbarButton}
           onPress={item.onPress}
         >
-          <MaterialIcons name={item.icon} size={20} color="#4c669f" />
+          <MaterialIcons name={item.icon} size={20} color="#333" />
         </TouchableOpacity>
       ))}
     </View>

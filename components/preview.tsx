@@ -35,31 +35,26 @@ const markdownStyles = StyleSheet.create({
   heading1: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#2c3e50",
     marginBottom: 15,
   },
   heading2: {
     fontSize: 26,
     fontWeight: "bold",
-    color: "#34495e",
     marginBottom: 12,
   },
   heading3: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#4c669f",
     marginBottom: 10,
   },
   paragraph: {
     fontSize: 16,
     lineHeight: 26,
-    color: "#2c3e50",
     marginBottom: 12,
   },
   list_item: {
     fontSize: 16,
     lineHeight: 26,
-    color: "#2c3e50",
     marginBottom: 8,
   },
   code_block: {

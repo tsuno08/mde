@@ -24,7 +24,7 @@ export const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
           <MaterialIcons
             name={item.icon}
             size={24}
-            color={activeTab === item.tab ? "#4c669f" : "#999"}
+            color={activeTab === item.tab ? "#333" : "#999"}
           />
           <Text
             style={[
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     color: "#999",
   },
   activeTabText: {
-    color: "#4c669f",
+    color: "#333",
     fontWeight: "600",
   },
 });
