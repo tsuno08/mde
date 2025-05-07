@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mde",
-    "slug": "mde",
+    "name": "MDE",
+    "slug": "MDE",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,26 +12,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "ios": {
-      "supportsTablet": true,
-      "infoPlist": {
-        "CFBundleDocumentTypes": [
-          {
-            "LSItemContentTypes": [
-              "net.daringfireball.markdown",
-              "public.markdown",
-              "public.plain-text"
-            ],
-            "CFBundleTypeName": "Markdown Document",
-            "LSHandlerRank": "Owner"
-          }
-        ]
-      }
-    },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/icon.png"
       },
       "edgeToEdgeEnabled": true,
       "intentFilters": [
